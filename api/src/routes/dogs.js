@@ -9,6 +9,8 @@ app.get('/', async (req, res) => {
 
     try{
 
+        // SI TIENE QUERY.NAME ENTONCES TRABAJO EN ESO SINO MUESTRO TODOS LOS DATOS DE LA API
+
         if(req.query.name){
 
             const nombreQuery = req.query.name
@@ -61,6 +63,8 @@ app.get('/', async (req, res) => {
 
         } else {
 
+        // TOMO LOS DATOS DE LA API Y LOS ENVIO EN JSON A CLIENTE
+
           const dogs = await axios.get(process.env.REACT_APP_API_KEY).then(datos => {
             return datos.data
         });
@@ -85,10 +89,6 @@ app.get('/', async (req, res) => {
 
         res.json(objPerro)
 
-        //console.log(dogs)
-
-        //res.send('TODO OK')
-  
         }
 
     }catch(e){
@@ -98,6 +98,7 @@ app.get('/', async (req, res) => {
     }
 
 });
+
 
 module.exports = app;
 
