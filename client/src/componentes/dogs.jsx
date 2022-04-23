@@ -1,42 +1,89 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { getDogs } from "../actions/actions";
+import { getDogs, getDetails } from "../actions/actions";
 import { Link } from 'react-router-dom'
-import Buscador from './buscador'
 
 function Dogs(props) {
+    const [title, setTitle] = useState('');
     const [dogs, setDogs] = useState([]);
+    const [dogsDetalles, setDogsDetalles] = useState([]);
 
     useEffect(() => {
         setDogs(props.dogs)
-    }, [props.dogs]);
+    }, [props.dogs])
+
+    useEffect(() => {
+        setDogsDetalles(props.dogsDetalles)
+    }, [props.dogsDetalles])
+
+    const handleClick = (event) => {
+        props.getDetails(event.target.textContent)
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        for(let i = 0; i < dogs.length; i++){
+            if(dogs[i].name === title){
+                return props.getDetails(title)
+            }
+        }
+    }
+
+
+    const handleChange = (event) => {
+        setTitle(event.target.value);
+    }
 
     return (
         <div>
-            <Buscador />
-            
-            <Link to='/'>VOLVER</Link>
-            <Link to='/detalles'>DETALLEs</Link>
 
-            <ul>
-                {
-                    dogs.map(a => (
-                        <div key={a.idDogs}>
-                            <ul>
-                                <li>Nombre: {a.name}</li>
-                                <li>Id: {a.idDogs}</li>
-                                <li>{a.peso.imperial}</li>
-                            </ul>
-                        </div>
-                    ))
-                }
-            </ul>
+            <Link to='/'>VOLVER</Link>
+            <form onSubmit={(e) => handleSubmit(e)}>
+                <div>
+                    <label>
+                        Raza:
+                        <input type="text" id='title' value={title} onChange={(e) => handleChange(e)} />
+                    </label>
+                </div>
+                <button type="submit">BUSCAR</button>
+            </form>
+
+            {
+                dogsDetalles.length > 0 && title === dogsDetalles[0][0].name ?
+                    dogsDetalles.map(a => {
+                        return (
+                            <div key={a[0].idDogs}>
+                                <ul>
+                                <Link to={`/dogs/${a[0].name}`}><li onClick={(e) => handleClick(e)}>{a[0].name}</li></Link>
+                                    <li>Id: {a[0].idDogs}</li>
+                                    <li>Peso: {a[0].peso.imperial}</li>
+                                </ul>
+                            </div>
+                        )
+                    })
+
+                    :
+
+                    dogs.map(a => {
+                        return (
+                            <div key={a.idDogs}>
+                                <ul>
+                                    <Link to={`/dogs/${a.name}`}><li onClick={(e) => handleClick(e)}>{a.name}</li></Link>
+                                    <li>Id: {a.idDogs}</li>
+                                    <li>{a.peso.imperial}</li>
+                                </ul>
+                            </div>
+                        )
+                    })
+            }
+
         </div>
     )
 }
 
 const mapStateToProps = state => ({
-    dogs: state.dogs
+    dogs: state.dogs,
+    dogsDetalles: state.dogsDetalles
 })
 
-export default connect(mapStateToProps, { getDogs })(Dogs)
+export default connect(mapStateToProps, { getDogs, getDetails })(Dogs)

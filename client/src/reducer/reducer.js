@@ -19,6 +19,7 @@ function rootReducer(state = initialState, { type, payload }){
     }
     if(type === 'GET_DETALLES'){
         return {
+            dogsDetalles: state.dogsDetalles.shift(),
             ...state,
             dogsDetalles: state.dogsDetalles.concat(payload)
         }
