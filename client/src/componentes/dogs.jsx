@@ -22,11 +22,11 @@ function Dogs(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        for(let i = 0; i < dogs.length; i++){
-            if(dogs[i].name === title){
+        for (let i = 0; i < dogs.length; i++) {
+            if (dogs[i].name === title) {
                 return props.getDetails(title)
             }
-        }
+        }   
     }
 
 
@@ -48,15 +48,19 @@ function Dogs(props) {
                 <button type="submit">BUSCAR</button>
             </form>
 
+
+            <Link to='/dogs/creacionDog'><button>CREAR UNA RAZA</button></Link>
+
+
             {
                 dogsDetalles.length > 0 && title === dogsDetalles[0][0].name ?
                     dogsDetalles.map(a => {
                         return (
                             <div key={a[0].idDogs}>
                                 <ul>
-                                <Link to={`/dogs/${a[0].name}`}><li onClick={(e) => handleClick(e)}>{a[0].name}</li></Link>
+                                    <Link to={`/dogs/${a[0].name}`}><li onClick={(e) => handleClick(e)}>{a[0].name}</li></Link>
                                     <li>Id: {a[0].idDogs}</li>
-                                    <li>Peso: {a[0].peso.imperial}</li>
+                                    { a[0].peso.imperial ? <li>{a[0].peso.imperial}</li> : <li>{a[0].peso}</li>}
                                 </ul>
                             </div>
                         )
@@ -70,7 +74,7 @@ function Dogs(props) {
                                 <ul>
                                     <Link to={`/dogs/${a.name}`}><li onClick={(e) => handleClick(e)}>{a.name}</li></Link>
                                     <li>Id: {a.idDogs}</li>
-                                    <li>{a.peso.imperial}</li>
+                                    { a.peso.imperial ? <li>{a.peso.imperial}</li> : <li>{a.peso}</li>}
                                 </ul>
                             </div>
                         )

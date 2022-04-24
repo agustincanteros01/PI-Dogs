@@ -69,6 +69,17 @@ app.get('/', async (req, res) => {
             return datos.data
         });
 
+        //console.log(dogs)
+
+        const peras = await Dog.findAll({
+            attributes: ['name']
+        })
+
+        peras.map(a => {
+            console.log(a.dataValues)
+        })
+
+
         const objPerro = await dogs.map(perros => {
 
             let obj = {}
