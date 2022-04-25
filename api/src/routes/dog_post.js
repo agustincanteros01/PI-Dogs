@@ -20,9 +20,9 @@ app.post('/', async (req, res) => {
                     const creacionDog = Dog.findOrCreate({
                         where: {
                             name: bodyDatos.name,
-                            altura: bodyDatos.altura,
-                            peso: bodyDatos.peso,
-                            promVida: bodyDatos.promVida
+                            height: bodyDatos.altura,
+                            weight: bodyDatos.peso,
+                            life_span: bodyDatos.promVida
                         }
                     })
                     return creacionDog;

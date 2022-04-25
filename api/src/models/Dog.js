@@ -8,21 +8,21 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    idDog: {
+    id: {
       primaryKey: true,
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
     },
-    altura: {
+    height: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    peso: {
+    weight: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    promVida: {
+    life_span: {
       type: DataTypes.INTEGER,
       allowNull: true,
     }

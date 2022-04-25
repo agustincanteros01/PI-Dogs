@@ -22,17 +22,17 @@ function Detalles(props) {
         return (
             <div>
 
-            <Link to='/dogs'>VOLVER</Link>
+                <Link to='/dogs'>VOLVER</Link>
 
                 <h2>DATOS CARGADOS</h2>
                 <ul>
                     {
                         detalles.map(a => (
-                            <div key={a[0].idDogs}>
+                            <div key={a[0].id}>
                                 <ul>
                                     <li>Nombre: {a[0].name}</li>
-                                    <li>Id: {a[0].idDogs}</li>
-                                    <li>{a[0].peso.imperial}</li>
+                                    <li>Id: {a[0].id}</li>
+                                    {a[0].weight.imperial ? <li>{a[0].weight.imperial}</li> : <li>{a[0].weight}</li>}
                                 </ul>
                             </div>
                         ))

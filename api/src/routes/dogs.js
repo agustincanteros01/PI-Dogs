@@ -5,13 +5,13 @@ const { Dog } = require('../db.js');
 
 app.get('/', async (req, res) => {
 
-    
 
-    try{
+
+    try {
 
         // SI TIENE QUERY.NAME ENTONCES TRABAJO EN ESO SINO MUESTRO TODOS LOS DATOS DE LA API
 
-        if(req.query.name){
+        if (req.query.name) {
 
             const nombreQuery = req.query.name
 
@@ -43,19 +43,19 @@ app.get('/', async (req, res) => {
                 }
 
                 Object.assign(obj, perro)
-            
+
                 return obj
             })
 
             //console.log(dogsApi)
 
-            if(dogsApi[0]){
+            if (dogsApi[0]) {
                 Object.assign(queryPerros, dogsApi)
             }
 
             //console.log(perroDb)
 
-            if(perroDb[0]){
+            if (perroDb[0]) {
                 Object.assign(queryPerros, perroDb);
             }
 
@@ -63,46 +63,72 @@ app.get('/', async (req, res) => {
 
         } else {
 
-        // TOMO LOS DATOS DE LA API Y LOS ENVIO EN JSON A CLIENTE
+            // TOMO LOS DATOS DE LA API Y LOS ENVIO EN JSON A CLIENTE
 
-          const dogs = await axios.get(process.env.REACT_APP_API_KEY).then(datos => {
-            return datos.data
-        });
-
-        //console.log(dogs)
-
-        const peras = await Dog.findAll({
-            attributes: ['name']
-        })
-
-        peras.map(a => {
-            console.log(a.dataValues)
-        })
+            const dogs = await axios.get(process.env.REACT_APP_API_KEY).then(datos => {
+                return datos.data
+            });
 
 
-        const objPerro = await dogs.map(perros => {
 
-            let obj = {}
+            const { count } = await Dog.findAndCountAll()
 
-            const perro = {
-                idDogs: perros.id,
-                name: perros.name,
-                peso: perros.weight,
-                altura: perros.height,
-                promVida: perros.life_span
+            if (count > 0) {
+                const peras = await Dog.findAll({
+                    attributes: ['name', 'weight', 'height', 'life_span', 'id']
+                })
+                let arrDogs = peras.map(perro => {
+                    return perro.dataValues
+                })
+
+                let arrPerros = dogs.concat(arrDogs)
+
+                const objPerro = await arrPerros.map(perros => {
+
+                    let obj = {}
+
+                    const perro = {
+                        id: perros.id,
+                        name: perros.name,
+                        weight: perros.weight,
+                        height: perros.height,
+                        life_span: perros.life_span
+                    }
+
+                    Object.assign(obj, perro)
+
+                    return obj
+
+                });
+
+                res.json(objPerro)
+
+            } else {
+                
+                const objPerro = await dogs.map(perros => {
+
+                    let obj = {}
+
+                    const perro = {
+                        id: perros.id,
+                        name: perros.name,
+                        weight: perros.weight,
+                        height: perros.height,
+                        life_span: perros.life_span
+                    }
+
+                    Object.assign(obj, perro)
+
+                    return obj
+
+                });
+
+                res.json(objPerro)
             }
-
-            Object.assign(obj, perro)
-            
-            return obj
-
-        });
-
-        res.json(objPerro)
 
         }
 
-    }catch(e){
+    } catch (e) {
 
         res.send(e);
 

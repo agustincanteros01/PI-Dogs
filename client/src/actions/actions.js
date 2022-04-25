@@ -28,7 +28,13 @@ export function getDatosPost(datos) {
             peso: datos.peso,
             promVida: datos.promVida
         }).then(dog => {
-            dispatch({ type: 'POST_DOGS', payload: dog })
+            dispatch({ type: 'POST_DOGS', payload: dog.data[0] })
         })
+    }
+}
+
+export function getUpdate(datos) {
+    return function (dispatch) {
+        return dispatch({ type: 'UPDATE_DOGS', payload: datos})
     }
 }

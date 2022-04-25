@@ -31,6 +31,12 @@ function rootReducer(state = initialState, { type, payload }) {
             dogs: state.dogs.concat(payload)
         }
     }
+    if(type === 'UPDATE_DOGS'){
+        return {
+            ...state,
+            dogs: state.dogs.concat(payload)
+        }
+    }
     return state
 }
 

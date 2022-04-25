@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getDatosPost } from '../actions/actions'
+import { getDatosPost, getUpdate } from '../actions/actions'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
@@ -15,8 +15,10 @@ function DogPost(props) {
   const formSubmit = (event) => {
     event.preventDefault();
     props.getDatosPost(dog)
-    console.log('hola')
+    getUpdate([dog])
   }
+
+  console.log(dog)
 
   const handleChange = (event) => {
     setDog({
@@ -28,7 +30,7 @@ function DogPost(props) {
   return (
     <div>
 
-    <Link to='/dogs'><button>VOLVER</button></Link>
+      <Link to='/dogs'><button>VOLVER</button></Link>
 
       <h1>Ingrese los datos:</h1>
       <form onSubmit={(e) => { formSubmit(e) }}>
@@ -61,4 +63,4 @@ function DogPost(props) {
 
 const mapStateToProps = state => ({})
 
-export default connect(mapStateToProps, { getDatosPost })(DogPost)
+export default connect(mapStateToProps, { getUpdate, getDatosPost })(DogPost)

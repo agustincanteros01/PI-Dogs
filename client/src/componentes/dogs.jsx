@@ -26,9 +26,8 @@ function Dogs(props) {
             if (dogs[i].name === title) {
                 return props.getDetails(title)
             }
-        }   
+        }
     }
-
 
     const handleChange = (event) => {
         setTitle(event.target.value);
@@ -56,11 +55,11 @@ function Dogs(props) {
                 dogsDetalles.length > 0 && title === dogsDetalles[0][0].name ?
                     dogsDetalles.map(a => {
                         return (
-                            <div key={a[0].idDogs}>
+                            <div key={a[0].id}>
                                 <ul>
                                     <Link to={`/dogs/${a[0].name}`}><li onClick={(e) => handleClick(e)}>{a[0].name}</li></Link>
-                                    <li>Id: {a[0].idDogs}</li>
-                                    { a[0].peso.imperial ? <li>{a[0].peso.imperial}</li> : <li>{a[0].peso}</li>}
+                                    <li>Id: {a[0].id}</li>
+                                    {a[0].weight.imperial ? <li>{a[0].weight.imperial}</li> : <li>{a[0].weight}</li>}
                                 </ul>
                             </div>
                         )
@@ -70,11 +69,11 @@ function Dogs(props) {
 
                     dogs.map(a => {
                         return (
-                            <div key={a.idDogs}>
+                            <div key={a.id}>
                                 <ul>
                                     <Link to={`/dogs/${a.name}`}><li onClick={(e) => handleClick(e)}>{a.name}</li></Link>
-                                    <li>Id: {a.idDogs}</li>
-                                    { a.peso.imperial ? <li>{a.peso.imperial}</li> : <li>{a.peso}</li>}
+                                    <li>Id: {a.id}</li>
+                                    {a.weight.imperial ? <li>{a.weight.imperial}</li> : <li>{a.weight}</li>}
                                 </ul>
                             </div>
                         )
